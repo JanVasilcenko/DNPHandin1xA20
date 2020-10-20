@@ -1,0 +1,91 @@
+﻿@page "/Registration"
+@using DNPHandin1.Models
+@using DNPHandin1.Data
+@using DNPHandin1.Data.Implementation
+@inject IUserService InMemoryUserService
+@inject NavigationManager NavigationManager
+
+
+<EditForm Model="@newUser" OnValidSubmit="@AddNewUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <body>
+        <div class="form-group shadow-lg" style="outline-width: thin;
+        position: absolute;
+        top: 20%;
+        left: 48%;
+        border-color:white;
+        border-width:50px;
+        border-style:solid;
+">
+            <div class="column text-center">
+                <h1 class="gradient-text font-weight-bold">REGISTRATION</h1>
+                <br />
+                <div class="form-group align-content-start">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" placeholder="First Name" @bind-value="newUser.UserName" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" rows="4" class="form-control" placeholder="Password" @bind-value="newUser.Password" />
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" class="form-control" placeholder="City" @bind-value="newUser.City" />
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" class="form-control" placeholder="Age" @bind-value="newUser.Age" />
+                </div>
+                <br />
+                <div style="color:red" class="font-weight-bold">@errorMessage</div>
+                <a id="but" @onclick="AddNewUser"><span class="gradient-span">REGISTER</span></a>
+            </div>
+        </div>
+</body>
+</EditForm>
+
+@code {
+    private User newUser = new User();
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        errorMessage = " ‏‏‎";
+    }
+
+    private void AddNewUser()
+    {
+        ValidateInfo(newUser);
+    }
+
+    private void ValidateInfo(User user)
+    {
+        if (user.UserName == null || user.UserName == "" && user.Age == 0 && user.Password == null || user.Password == "" && user.City == null || user.City == "")
+        {
+            errorMessage = "You must enter information";
+        }
+        else if (user.UserName == null || user.UserName == "")
+        {
+            errorMessage = "You must enter username";
+        }
+        else if (user.Age == 0)
+        {
+            errorMessage = "You must enter age";
+        }
+        else if (user.Password == null || user.Password == "")
+        {
+            errorMessage = "You must enter password";
+        }
+        else if (user.City == null || user.City == "")
+        {
+            errorMessage = "You must enter city";
+        }
+        else
+        {
+            InMemoryUserService.AddUser(newUser);
+            NavigationManager.NavigateTo("/Login");
+        }
+    }
+
+}

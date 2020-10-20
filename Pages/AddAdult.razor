@@ -1,0 +1,80 @@
+﻿@page "/AddAdult"
+@attribute [Authorize]
+@using DNPHandin1.Models
+@using DNPHandin1.Data
+@inject IAdultsService AdultService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@newAdult" OnValidSubmit="@AddNewAdult">
+    <DataAnnotationsValidator />
+    
+    <div class="form-group shadow-lg" style="outline-width: thin;
+        position: absolute;
+        top: 15%;
+        left: 30%;
+        border-color:white;
+        border-width:50px;
+        border-style:solid;
+">
+        <div class="text-center">
+            <h1 class="gradient-text font-weight-bold">Add Adult</h1>
+            <br />
+            <div class="row">
+                <div class="form-group align-content-start">
+                    <label>First Name</label>
+                    <InputText class="form-control" placeholder="First Name" @bind-Value="newAdult.FirstName" />
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <InputText class="form-control" placeholder="Last Name" @bind-Value="newAdult.LastName" />
+                </div>
+                <div class="form-group">
+                    <label>Hair Color</label>
+                    <InputText class="form-control" placeholder="Hair Color" @bind-Value="newAdult.HairColor" />
+                </div>
+                <div class="form-group">
+                    <label>Eye Color</label>
+                    <InputText class="form-control" placeholder="Eye Color" @bind-Value="newAdult.EyeColor" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label>Age</label>
+                    <InputNumber class="form-control" placeholder="Age" @bind-Value="newAdult.Age" />
+                </div>
+                <div class="form-group">
+                    <label>Weight</label>
+                    <InputNumber class="form-control" placeholder="Weight" @bind-Value="newAdult.Weight" />
+                </div>
+                <div class="form-group">
+                    <label>Height</label>
+                    <InputNumber class="form-control" placeholder="Height" @bind-Value="newAdult.Height" />
+                </div>
+                <div class="form-group">
+                    <label>Sex</label>
+                    <InputSelect class="form-control" placeholder="Sex" @bind-Value="newAdult.Sex">
+                        <option>F</option>
+                        <option>M</option>
+                        <option>Other</option>
+                    </InputSelect>
+                </div>
+            </div>
+            <br />
+            <ValidationSummary />
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Create</button>
+            </p>
+        </div>
+    </div>
+    
+</EditForm>
+
+@code {
+    private Adult newAdult = new Adult();
+
+    private void AddNewAdult()
+    {
+        AdultService.AddAdult(newAdult);
+        NavigationManager.NavigateTo("/AdultsList");
+    }
+}

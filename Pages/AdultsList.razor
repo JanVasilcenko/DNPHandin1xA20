@@ -1,0 +1,117 @@
+﻿@page "/AdultsList"
+@attribute [Authorize]
+@using DNPHandin1.Models
+@using DNPHandin1.Data
+@inject IAdultsService AdultsService
+
+<h1>Adults List</h1>
+<p>
+    Filter by Adult Id: <input type="number" @oninput="@((arg) => Filter(arg))" style="width:50px" />
+</p>
+<p>
+    Filtered by Sex:
+    <select class="form-control selectpicker" @onchange="@((arg) => FilteredBySex(arg))" style="width:100">
+        <option>F</option>
+        <option>M</option>
+        <option>Other</option>
+    </select>
+</p>
+@if (adultsToShow == null)
+{
+    <p>
+        <em>List is loading...</em>
+    </p>
+}
+else if (!adultsToShow.Any())
+{
+    <p>
+        The file is empty, no list displayed...
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Adult ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Hair Color</th>
+                <th>Eye Color</th>
+                <th>Age</th>
+                <th>Weight</th>
+                <th>Sex</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in adultsToShow)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.HairColor</td>
+                    <td>@item.EyeColor</td>
+                    <td>@item.Age</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Sex</td>
+                    <td>
+                        <button @onclick="@(() => RemoveAdult(item.Id))">
+                            <i class="oi oi-trash" style="color:red"/> 
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private IList<Adult> allAdults;
+    private IList<Adult> adultsToShow;
+
+    private int? filteredById;
+    private string? filterBySex;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allAdults = AdultsService.GetAdults();
+        adultsToShow = allAdults;
+    }
+    private void RemoveAdult(int id)
+    {
+        Adult adultToRemove = allAdults.First(a => a.Id == id);
+        AdultsService.RemoveAdult(id);
+        allAdults.Remove(adultToRemove);
+    }
+    private void Filter(ChangeEventArgs changeEventArgs)
+    {
+        filteredById = null;
+        try
+        {
+            filteredById = int.Parse(changeEventArgs.Value.ToString());
+        } catch (Exception e)
+        {
+
+        }
+        ExecuteFilter();
+    }
+
+    private void FilteredBySex(ChangeEventArgs args)
+    {
+        filterBySex = null;
+        try
+        {
+            filterBySex = args.Value.ToString();
+        } catch (Exception e)
+        {
+
+        }
+        ExecuteFilter();
+    }
+    private void ExecuteFilter()
+    {
+        adultsToShow = allAdults.Where(t =>
+        (filteredById != null && t.Id == filteredById || filteredById == null) && (filterBySex != null && t.Sex == filterBySex || filterBySex == null)).ToList();
+    }
+}
