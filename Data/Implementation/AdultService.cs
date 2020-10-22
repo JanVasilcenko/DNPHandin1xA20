@@ -31,7 +31,7 @@ namespace DNPHandin1.Data.Implementation
             }*/
         }
 
-        public void AddAdult(Adult adult)
+        public async Task<Adult> AddAdult(Adult adult)
         {
             int max = fileContext.Adults.Max(adult => adult.Id);
             adult.Id = (++max);
@@ -39,15 +39,16 @@ namespace DNPHandin1.Data.Implementation
             fileContext.Adults.Add(adult);
             fileContext.SaveChanges();
             //WriteAdultsToFile();
+            return new Adult();
         }
 
-        public IList<Adult> GetAdults()
+        public async Task<IList<Adult>> GetAdults()
         {
             List<Adult> copy = new List<Adult>(fileContext.Adults);
             return copy;
         }
 
-        public void RemoveAdult(int id)
+        public async Task RemoveAdult(int id)
         {
             Adult toRemove = fileContext.Adults.First(a => a.Id == id);
             //adults.Remove(toRemove);

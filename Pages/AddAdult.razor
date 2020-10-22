@@ -21,6 +21,10 @@
             <br />
             <div class="row">
                 <div class="form-group align-content-start">
+                    <label>Job Title</label>
+                    <InputText class="form-control" placeholder="Job Title" @bind-Value="newAdult.JobTitle" />
+                </div>
+                <div class="form-group align-content-start">
                     <label>First Name</label>
                     <InputText class="form-control" placeholder="First Name" @bind-Value="newAdult.FirstName" />
                 </div>
@@ -68,13 +72,15 @@
     </div>
     
 </EditForm>
+<p>@toview.Id</p>
 
 @code {
     private Adult newAdult = new Adult();
+    private Adult toview = new Adult();
 
-    private void AddNewAdult()
+    private async Task AddNewAdult()
     {
-        AdultService.AddAdult(newAdult);
+        toview = await AdultService.AddAdult(newAdult);
         NavigationManager.NavigateTo("/AdultsList");
     }
 }

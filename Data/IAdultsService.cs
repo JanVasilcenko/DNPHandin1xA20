@@ -9,8 +9,8 @@ namespace DNPHandin1.Data
 {
     public interface IAdultsService
     {
-        IList<Adult> GetAdults();
-        void AddAdult(Adult adult);
-        void RemoveAdult(int id);
+        Task<IList<Adult>> GetAdults();
+        Task<Adult> AddAdult(Adult adult);
+        Task RemoveAdult(int id);
     }
 }

@@ -33,7 +33,7 @@ namespace DNPHandin1
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<IAdultsService,AdultService>();
+            services.AddSingleton<IAdultsService,CloudAdultService>();
             services.AddScoped<IUserService, InMemoryUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
