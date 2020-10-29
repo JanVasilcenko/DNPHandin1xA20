@@ -16,7 +16,7 @@ namespace DNPHandin1.Data.Implementation
         {
             HttpClient client = new HttpClient();
             StringContent content = new StringContent(JsonSerializer.Serialize(adult),Encoding.UTF8, "application/json");
-            HttpResponseMessage message = await client.PutAsync("http://dnp.metamate.me/Adults",content);
+            HttpResponseMessage message = await client.PostAsync("https://localhost:44398/adults", content);
 
             string adult2 = await message.Content.ReadAsStringAsync();
             Adult adult3 = JsonSerializer.Deserialize<Adult>(adult2);
@@ -26,7 +26,7 @@ namespace DNPHandin1.Data.Implementation
         public async Task<IList<Adult>> GetAdults()
         {
             HttpClient client = new HttpClient();
-            string message = await client.GetStringAsync("http://dnp.metamate.me/Adults");
+            string message = await client.GetStringAsync("https://localhost:44398/adults");
             List<Adult> result = JsonSerializer.Deserialize<List<Adult>>(message);
             return result;
         }
@@ -34,7 +34,7 @@ namespace DNPHandin1.Data.Implementation
         public async Task RemoveAdult(int id)
         {
             HttpClient client = new HttpClient();
-            string url = "http://dnp.metamate.me/Adults/"+id.ToString();
+            string url = "https://localhost:44398/adults/" + id.ToString();
             HttpResponseMessage response = await client.DeleteAsync(url);
         }
     }

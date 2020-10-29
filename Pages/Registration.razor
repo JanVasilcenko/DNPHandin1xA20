@@ -54,12 +54,12 @@
         errorMessage = " ‏‏‎";
     }
 
-    private void AddNewUser()
+    private async Task AddNewUser()
     {
-        ValidateInfo(newUser);
+        await ValidateInfo(newUser);
     }
 
-    private void ValidateInfo(User user)
+    private async Task ValidateInfo(User user)
     {
         if (user.UserName == null || user.UserName == "" && user.Age == 0 && user.Password == null || user.Password == "" && user.City == null || user.City == "")
         {
@@ -83,8 +83,15 @@
         }
         else
         {
-            InMemoryUserService.AddUser(newUser);
-            NavigationManager.NavigateTo("/Login");
+            try
+            {
+                await InMemoryUserService.AddUser(newUser);
+                NavigationManager.NavigateTo("/Login");
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+            }
         }
     }
 

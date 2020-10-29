@@ -33,7 +33,7 @@ namespace DNPHandin1
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<IAdultsService,CloudAdultService>();
-            services.AddScoped<IUserService, InMemoryUserService>();
+            services.AddScoped<IUserService, CloudUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
             services.AddAuthorization(options => {
