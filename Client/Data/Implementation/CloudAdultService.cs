@@ -1,4 +1,5 @@
-﻿using DNPHandin1.Models;
+﻿using DNPHandin4.Data;
+using DNPHandin4.Model;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DNPHandin1.Data.Implementation
+namespace DNPHandin4.Data.Implementation
 {
     public class CloudAdultService : IAdultsService
     {
@@ -16,7 +17,7 @@ namespace DNPHandin1.Data.Implementation
         {
             HttpClient client = new HttpClient();
             StringContent content = new StringContent(JsonSerializer.Serialize(adult),Encoding.UTF8, "application/json");
-            HttpResponseMessage message = await client.PostAsync("https://localhost:44398/adults", content);
+            HttpResponseMessage message = await client.PostAsync("https://localhost:44345/adults", content);
 
             string adult2 = await message.Content.ReadAsStringAsync();
             Adult adult3 = JsonSerializer.Deserialize<Adult>(adult2);
@@ -26,7 +27,7 @@ namespace DNPHandin1.Data.Implementation
         public async Task<IList<Adult>> GetAdults()
         {
             HttpClient client = new HttpClient();
-            string message = await client.GetStringAsync("https://localhost:44398/adults");
+            string message = await client.GetStringAsync("https://localhost:44345/adults");
             List<Adult> result = JsonSerializer.Deserialize<List<Adult>>(message);
             return result;
         }
@@ -34,7 +35,7 @@ namespace DNPHandin1.Data.Implementation
         public async Task RemoveAdult(int id)
         {
             HttpClient client = new HttpClient();
-            string url = "https://localhost:44398/adults/" + id.ToString();
+            string url = "https://localhost:44345/adults/" + id.ToString();
             HttpResponseMessage response = await client.DeleteAsync(url);
         }
     }

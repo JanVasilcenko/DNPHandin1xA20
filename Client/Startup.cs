@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DNPHandin1.Data;
-using DNPHandin1.Data.Implementation;
+using DNPHandin4.Data;
+using DNPHandin4.Data.Implementation;
 using Microsoft.AspNetCore.Components.Authorization;
-using DNPHandin1.Authentication;
-using System.Security.Claims;
+using DNPHandin4.Authentication;
 
-namespace DNPHandin1
+namespace Client
 {
     public class Startup
     {
@@ -32,12 +25,10 @@ namespace DNPHandin1
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IAdultsService,CloudAdultService>();
+            services.AddSingleton<IAdultsService, CloudAdultService>();
             services.AddScoped<IUserService, CloudUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-
-            services.AddAuthorization(options => {
-            });
+            services.AddAuthorization(options => { });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

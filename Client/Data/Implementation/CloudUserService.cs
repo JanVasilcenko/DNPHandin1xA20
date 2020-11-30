@@ -1,4 +1,4 @@
-﻿using DNPHandin1.Models;
+﻿using DNPHandin4.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DNPHandin1.Data.Implementation
+namespace DNPHandin4.Data.Implementation
 {
     public class CloudUserService : IUserService
     {
@@ -15,7 +15,7 @@ namespace DNPHandin1.Data.Implementation
         {
             HttpClient client = new HttpClient();
             StringContent content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
-            HttpResponseMessage message = await client.PostAsync("https://localhost:44398/users", content);
+            HttpResponseMessage message = await client.PostAsync("https://localhost:44345/users", content);
 
             //string adult2 = await message.Content.ReadAsStringAsync();
             //User adult3 = JsonSerializer.Deserialize<User>(adult2);
@@ -24,7 +24,7 @@ namespace DNPHandin1.Data.Implementation
         public async Task<User> ValidateUser(string userName, string password)
         {
             HttpClient client = new HttpClient();
-            string message = await client.GetStringAsync("https://localhost:44398/users?username="+userName+"&password="+password);
+            string message = await client.GetStringAsync("https://localhost:44345/users?username=" + userName+"&password="+password);
             User result = JsonSerializer.Deserialize<User>(message);
             return result;
         }

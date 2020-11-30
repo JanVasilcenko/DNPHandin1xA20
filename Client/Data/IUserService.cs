@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DNPHandin1.Models;
+using DNPHandin4.Model;
 
-namespace DNPHandin1.Data
+namespace DNPHandin4.Data
 {
     public interface IUserService
     {
